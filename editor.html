@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block title %}{% if post %}Edit Post{% else %}New Post{% endif %} - Social Feed{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12">
+        <h1>{% if post %}Edit Post{% else %}Create New Post{% endif %}</h1>
+        
+        <form method="POST" action="{% if post %}{{ url_for('editor', username=username, post_id=post.id) }}{% else %}{{ url_for('editor', username=username, post_id='new') }}{% endif %}">
+            <div class="mb-3">
+                <label for="title" class="form-label">Title</label>
+                <input type="text" class="form-control" id="title" name="title" value="{% if post %}{{ post.title }}{% endif %}" required>
+            </div>
+            
+            <div class="mb-3">
+                <label for="content" class="form-label">Content (Markdown)</label>
+                <textarea class="form-control" id="content" name="content" rows="15" required>{% if post %}{{ post.content }}{% endif %}</textarea>
+                <div class="form-text">
+                    Write your content in Markdown format.
+                </div>
+            </div>
+            
+            <div class="mb-3">
+                <button type="submit" class="btn btn-primary">{% if post %}Update Post{% else %}Publish Post{% endif %}</button>
+                <a href="{{ url_for('dashboard', username=username) }}" class="btn btn-secondary">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
